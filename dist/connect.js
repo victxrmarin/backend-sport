@@ -6,15 +6,15 @@ function getConnected() {
       host: "localhost",
       user: "root",
       password: "",
-      database: "meu_banco",
+      database: "meubanco",
     });
 
     connection.connect((error) => {
       if (error) {
-        console.error("Error to connect into database: " + error.stack);
+        console.error("Error connecting to database: " + error.stack);
         return reject(error);
       }
-      console.log("Connect into database with ID " + connection.threadId);
+      console.log("Connected to database with ID " + connection.threadId);
       resolve(connection);
     });
   });
