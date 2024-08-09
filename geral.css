@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+
+:root {
+  --purple-default: #6F50FF;
+  --purple-relative: #4024C0;
+  --black-default: #0A122A;
+  --white-bg: #FFF;
+  --white-default: #F4F4ED;
+  --grey-font: #939393;
+  --color-input: #ADABAB;
+  --button-cancelar: #FF6767;
+  --button-adicionar: #4285F4;
+
+  --bebas: "Bebas Neue", sans-serif;
+  --manrope: "Manrope", sans-serif;
+  --poppins: "Poppins", sans-serif;
+
+
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--white-bg);
+}
+
+body main {
+  padding: 56px 30px;
+}
+
+/*.font-bebas {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 128px;
+  font-weight: 400;
+}
+
+.font-manrope {
+  font-family: "Manrope", sans-serif;
+  font-weight: 500;
+}
+
+.font-poppins {
+  font-family: "Poppins", sans-serif;
+}*/
+
+h1 {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: bold;
+
+}
+
+.text {
+  font-size: 14px;
+  font-weight: 300;
+  font-family: var(--manrope);
+}
+
+.text-small {
+  font-size: 12px;
+  font-weight: 300;
+  font-family: var(--manrope);
+} 

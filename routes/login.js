@@ -1,13 +1,14 @@
 const express = require("express");
 const { getConnected } = require("../dist/connect");
-const getLocation = require('../scripts/getLocation')
+const getHash = require('../scripts/getHash')
 const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
     const connection = await getConnected();
-    const data = await getLocation();
-    connection.query("SELECT * FROM usuarios WHERE nome = ?", data.city, (error, results) => {
+    
+    const {email, password} = req.body;
+    connection.query("SELECT * FROM usuarios WHERE email = ? AND password = ?", [email, getHash(password)], (error, results) => {
       if (error) {
         console.error("Error executing query: ", error);
         return res.status(500).send("Error when selecting data.");
