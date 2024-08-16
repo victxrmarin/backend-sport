@@ -1,50 +1,39 @@
 const express = require("express");
-const { getConnected } = require("../dist/connect");
+const pool = require("../dist/connect"); 
 const getHash = require('../scripts/getHash')
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  try {
-    const connection = await getConnected();
-    
     const {email, password} = req.body;
-    connection.query("SELECT * FROM usuarios WHERE email = ? AND password = ?", [email, getHash(password)], (error, results) => {
+    
+    pool.query("SELECT * FROM users WHERE email = ? AND password = ?", [email, await getHash(password)], (error, results) => {
       if (error) {
         console.error("Error executing query: ", error);
-        return res.status(500).send("Error when selecting data.");
+        return res.status(500).json({message: "usuário não encontrado", success: false});
       }
-      return res.json(results);
+      return res.status(201).json({message: "Login realizado com sucesso", success: true});
+
     });
-  } catch (error) {
-    console.error("Error connecting to the database: ", error);
-    res.status(500).send("Error connecting to the database.");
-  }
 });
 
 router.post("/", async (req, res) => {
-  try {
-    const connection = await getConnected();
-    const { nome, email, senha } = req.body;
+    const { username, email, password } = req.body;
 
-    if (!nome || !email || !senha) {
-      return res.status(400).send('Missing required fields: nome, email, and senha.');
+    if (!username || !email || !password) {
+      return res.status(400).json({message: 'Missing required fields: username, email, and senha.'});
     }
 
-    connection.query(
-      "INSERT INTO usuarios(nome, email, senha) VALUES (?, ?, ?)",
-      [nome, email, senha],
+    pool.query(
+      "INSERT INTO users(username, email, password) VALUES (?, ?, ?)",
+      [username, email, password],
       (error, results) => {
         if (error) {
           console.error("Error executing insert query: ", error);
-          return res.status(500).send('Erro ao adicionar usuário.');
+          return res.status(500).json({message: 'Erro ao adicionar usuário.'});
         }
-        res.status(201).send('Usuário adicionado com sucesso.');
+        res.status(201).json({message: 'Usuário adicionado com sucesso.'});
       }
     );
-  } catch (error) {
-    console.error("Error connecting to the database: ", error);
-    res.status(500).send("Error connecting to the database.");
-  }
 });
 
 module.exports = router;

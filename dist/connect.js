@@ -1,23 +1,25 @@
 const mysql = require("mysql2");
 
-function getConnected() {
-  return new Promise((resolve, reject) => {
-    const connection = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "",
-      database: "meubanco",
-    });
+const pool = mysql.createPool({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "sportche",
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
 
-    connection.connect((error) => {
-      if (error) {
-        console.error("Error connecting to database: " + error.stack);
-        return reject(error);
-      }
-      console.log("Connected to database with ID " + connection.threadId);
-      resolve(connection);
-    });
-  });
-}
 
-module.exports = { getConnected };
+pool.getConnection((err, connection) => {
+  if (err) {
+    console.error("Error connecting to the database: ", err);
+    process.exit(1);
+  }
+  if (connection) {
+    console.log("Database connection established successfully!");
+    connection.release();
+  }
+});
+
+module.exports = pool;

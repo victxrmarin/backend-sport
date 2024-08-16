@@ -1,13 +1,16 @@
+const crypto = require('crypto');
+
 async function getHash(pwd) {
-    const bcrypt = require('bcrypt');
-    var hash;
+    
     return new Promise((resolve, reject) => {
-        bcrypt.hash(pwd, 5)
-            .then((passHashed) => { resolve(hash = passHashed) })
-            .catch(e => reject(e))
+        crypto.scrypt(pwd, 'salt', 64, (err, derivedKey) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(derivedKey.toString('hex'));
+            }
+        });
     });
-};
+}
 
-
-let hash = getHash('host')
-console.log(hash)
+module.exports = getHash;
