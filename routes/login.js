@@ -24,9 +24,9 @@ router.post("/", async (req, res) => {
     }
 
     pool.query(
-      "INSERT INTO users(username, email, password) VALUES (?, ?, ?)",
+      "INSERT INTO usuarios(nome, email, senha) VALUES (?, ?, ?)",
       [username, email, password],
-      (error, results) => {
+      (error, res) => {
         if (error) {
           console.error("Error executing insert query: ", error);
           return res.status(500).json({message: 'Erro ao adicionar usuário.'});

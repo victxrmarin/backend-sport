@@ -5,7 +5,7 @@ document.getElementById('botaoEntrarLogin').addEventListener('click', async func
     const password = document.getElementById('password').value;
 
     try {
-        const response = await fetch('htttp://localhost:3000/login', {
+        const response = await fetch('http://localhost:3000/login', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: email, password: password })
@@ -24,23 +24,29 @@ document.getElementById('botaoEntrarLogin').addEventListener('click', async func
     }
 });
 
-// Submissão do formulário de cadastro
 document.getElementById('botaoCadastrarRegister').addEventListener('click', async function (event) {
     event.preventDefault();
     const password = document.getElementById('passwordCadastro').value;
     const email = document.getElementById('inputemailCadastro').value;
     const username = document.getElementById('nomeCadastro').value;
 
-    const response = await fetch('./routes/signIn.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: username, email: email, password: password })
-    });
+    try {
+        const response = await fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: username, email: email, password: password })
+        });
 
-    console.log(response);
-    document.getElementById('registerResponse').innerHTML = response.message;
+        const data = await response.json();
 
-    if (response.success) {
-        window.location.href = './assets/telas/search.html';
+        // Atualiza o conteúdo da página com a mensagem da resposta
+        document.getElementById('registerResponse').innerHTML = data.message;
+
+        // Verifica se o cadastro foi bem-sucedido
+        if (data.success) {
+            window.location.href = './assets/telas/search.html';
+        }
+    } catch (err) {
+        console.error(err);
     }
 });
